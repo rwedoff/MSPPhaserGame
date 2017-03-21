@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "./Scripts/App"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ],
+  "files": [
+    "./src/app.ts",
+    "./src/typings/phaser.d.ts",
+    "./src/typings/p2.d.ts",
+    "./src/typings/pixi.d.ts"
+  ],
+  "compileOnSave":  true
+}
