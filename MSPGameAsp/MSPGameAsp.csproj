@@ -89,6 +89,7 @@
     <Content Include="src\assets\rock.png" />
     <Content Include="src\assets\slimeWalk1.png" />
     <Content Include="src\assets\spikes.png" />
+    <Content Include="src\assets\spritesheet.png" />
     <Content Include="src\assets\stoneMid.png" />
     <Content Include="src\creature.js" />
     <Content Include="src\p2.js" />

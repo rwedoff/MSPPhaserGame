@@ -4,12 +4,12 @@ var SimpleGame = (function () {
         this.game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', this);
     }
     SimpleGame.prototype.preload = function () {
-        this.game.load.image('player', '/src/assets/p1_stand.png');
         this.game.load.image('slime', '/src/assets/slimeWalk1.png');
         this.game.load.image('poker', '/src/assets/pokerMad.png');
         this.game.load.image('fly', '/src/assets/flyFly1.png');
         this.game.load.image('tile', '/src/assets/stoneMid.png');
         this.game.load.image('spikes', '/src/assets/spikes.png');
+        this.game.load.spritesheet('playerSheet', '/src/assets/spritesheet.png', 72, 97, 11);
         this.game.stage.backgroundColor = '#124184';
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.physics.arcade.gravity.y = 500;
@@ -18,7 +18,9 @@ var SimpleGame = (function () {
         var _this = this;
         this.floor = this.game.add.tileSprite(0, this.game.world.bounds.bottom - 50, this.game.world.bounds.right, 50, 'tile');
         this.spikes = this.game.add.tileSprite(0, 0, this.game.world.bounds.right, 50, 'spikes');
-        this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.bounds.bottom - 150, 'player');
+        this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.bounds.bottom - 150, 'playerSheet');
+        var walk = this.player.animations.add('walk');
+        this.player.animations.play('walk', 13, true);
         this.enemy = this.game.add.sprite(this.game.world.bounds.right, this.game.world.bounds.bottom, 'slime');
         this.enemy.y = this.game.world.bottom - this.enemy.height - 100;
         var poker = this.game.add.sprite(this.game.world.bounds.right, this.game.world.bounds.bottom, 'poker');
