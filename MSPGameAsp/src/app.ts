@@ -62,13 +62,7 @@
         this.game.physics.enable(this.fly, Phaser.Physics.ARCADE);
 
         let style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        this.infotext = this.game.add.text(0, 50, "0", style);
-        this.highScore = 0;
-        this.highText = this.game.add.text(this.infotext.right + 50, 50, "High Score: 0", style);
-                
-        this.loseText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Press Space to Play", style);
-
-        this.firstPlay = true;
+       
         this.enemySpeed = 3;
         this.tempTotal = 0;
 
@@ -86,15 +80,6 @@
 
         this.enemies = [this.enemy, poker];
 
-        this.timer = this.game.time.create(false);
-        
-        
-        this.total = 0;
-        this.timer.loop(400, () => {
-            this.total++;
-        }, this);
-        this.timer.start();
-        
     } 
 
     public spawnEnemy(): Phaser.Sprite {
@@ -135,8 +120,8 @@
             this.player.y -= 15;
         } 
         if(this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
-            this.resetGame();
-            this.firstPlay = false;
+            //this.resetGame();
+            //this.firstPlay = false;
         }   
         
 
@@ -149,41 +134,19 @@
         }
 
 
-        if (this.total > this.tempTotal + 10) {
-            this.tempTotal = this.total;
-            this.enemySpeed += 1;
-        }
-
         this.fly.x += this.enemySpeed + 1;
 
         this.enemy.x -= this.enemySpeed;
-        this.infotext.text = this.total.toString();
-        let style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
         
-        if (this.infotext.right >= this.highText.left) {
-            this.highText.x += 25;
-        }
-        var hs: string = "High Score: " + this.highScore;
-        this.highText.text = hs;
+        
     }
     public loseEvent(self): void {
-        this.loseText.text = "You lose\nPress Space to Play Again";
-        this.timer.running = false;
+       
+       
         this.enemySpeed = 0;
-        if (this.total >= this.highScore) {
-            this.highScore = this.total;
-        }
+       
     }
 
-    public resetGame(): void{
-        this.enemySpeed = 3;
-        this.enemy.x = this.game.world.bounds.right;
-        this.enemy.y = this.game.world.centerY;
-        this.timer.running = true;
-        this.total = 0;
-        this.tempTotal = 0;
-        this.loseText.text = "";
-    }  
      
 }
 
