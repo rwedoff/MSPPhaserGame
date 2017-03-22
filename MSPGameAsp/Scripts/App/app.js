@@ -34,6 +34,8 @@ var SimpleGame = (function () {
         this.infotext = this.game.add.text(0, 50, "0", style);
         this.highScore = 0;
         this.highText = this.game.add.text(this.infotext.right + 50, 50, "High Score: 0", style);
+        this.loseText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Press Space to Play", style);
+        this.firstPlay = true;
         this.enemySpeed = 3;
         this.tempTotal = 0;
         this.fly.body.allowGravity = false;
@@ -71,14 +73,21 @@ var SimpleGame = (function () {
         this.game.physics.arcade.collide(this.spikes, this.player, this.loseEvent, this.loseEvent, this);
         this.game.physics.arcade.collide(this.enemy, this.player, this.loseEvent, this.loseEvent, this);
         this.game.physics.arcade.collide(this.fly, this.player, this.loseEvent, this.loseEvent, this);
+        if (this.firstPlay == true) {
+            this.enemySpeed = 0;
+        }
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
             this.player.x += 5;
         }
-        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
             this.player.x -= 5;
         }
-        else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
             this.player.y -= 15;
+        }
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            this.resetGame();
+            this.firstPlay = false;
         }
         if (this.enemy.body.right < 0) {
             this.enemy = this.spawnEnemy();
@@ -101,13 +110,21 @@ var SimpleGame = (function () {
         this.highText.text = hs;
     };
     SimpleGame.prototype.loseEvent = function (self) {
-        var style = { font: "bold 50px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-        self.game.add.text(this.game.world.centerX, this.game.world.centerY, "You Lose!", style);
+        this.loseText.text = "You lose\nPress space to play again";
         this.timer.running = false;
         this.enemySpeed = 0;
         if (this.total >= this.highScore) {
             this.highScore = this.total;
         }
+    };
+    SimpleGame.prototype.resetGame = function () {
+        this.enemySpeed = 3;
+        this.enemy.x = this.game.world.bounds.right;
+        this.enemy.y = this.game.world.centerY;
+        this.timer.running = true;
+        this.total = 0;
+        this.tempTotal = 0;
+        this.loseText.text = "";
     };
     return SimpleGame;
 }());
